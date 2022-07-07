@@ -52,7 +52,7 @@ ffmpeg(filename).addOptions([ //360
 
 ffmpeg(filename).addOptions([ //480
     '-profile:v main',
-    '-vf scale=w=842:h=480:force_original_aspect_ratio=decrease',
+    '-vf scale=w=854:h=480:force_original_aspect_ratio=decrease',
     '-c:a aac',
     '-ar 48000',
     '-b:a 128k',
