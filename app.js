@@ -2,31 +2,19 @@ const ffmpeg = require('fluent-ffmpeg');
 const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 const fs = require('fs');
-var filename = 'F:/backup/downloads/videoforconvert.mp4';
+var filename = 'F:\backup\downloads/videoforconvert.mp4';
 const crypto = require("crypto");
 video_id = crypto.randomBytes(16).toString("hex");
 console.log(video_id);
 
-const dir = `./${video_id}`;
-const g_cloud_dir = `https://storage.googleapis.com/st_player/${video_id}/`;
-
-
-
-fs.mkdir(dir, (err) => {
-    if (err) {
-        throw err;
-    }
-    console.log("Directory is created.");
-});
 function callback() { // do something when encoding is done 
-
-    fs.writeFile(`${video_id}/index.m3u8`, `#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-STREAM-INF:BANDWIDTH=800000,RESOLUTION=640x360\n${g_cloud_dir}360p.m3u8\n#EXT-X-STREAM-INF:BANDWIDTH=1400000,RESOLUTION=842x480\n${g_cloud_dir}480p.m3u8\n#EXT-X-STREAM-INF:BANDWIDTH=2800000,RESOLUTION=1280x720\n${g_cloud_dir}720p.m3u8\n#EXT-X-STREAM-INF:BANDWIDTH=5000000,RESOLUTION=1920x1080\n${g_cloud_dir}1080p.m3u8`,
-        function (err) {
-            if (err) {
-                return console.log(err);
-            }
-            console.log("The file was saved!");
-        })
+    fs.writeFile("videos/index.m3u8", `#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-STREAM-INF:BANDWIDTH=800000,RESOLUTION=640x360\nhttps://storage.googleapis.com/armusdigital.com/${video_id}/360p.m3u8\n#EXT-X-STREAM-INF:BANDWIDTH=1400000,RESOLUTION=842x480\nhttps://storage.googleapis.com/armusdigital.com/${video_id}/480p.m3u8\n#EXT-X-STREAM-INF:BANDWIDTH=2800000,RESOLUTION=1280x720\nhttps://storage.googleapis.com/armusdigital.com/${video_id}/720p.m3u8\n#EXT-X-STREAM-INF:BANDWIDTH=5000000,RESOLUTION=1920x1080\nhttps://storage.googleapis.com/armusdigital.com/${video_id}/1080p.m3u8`, function (err) {
+        console.log("The file is being encode!");
+        if (err) {
+            return console.log(err);
+        }
+        console.log("The file was saved!");
+    })
 }
 
 
@@ -45,10 +33,10 @@ ffmpeg(filename).addOptions([ //360
     '-maxrate 856k',
     '-bufsize 1200k',
     '-hls_time 10',
-    `-hls_segment_filename ${video_id}/360p_%03d.ts`,
+    `-hls_segment_filename videos/${video_id}/360p_%03d.ts`,
     '-hls_playlist_type vod',
     '-f hls'
-]).output(`${dir}/360p.m3u8`).run()
+]).output(`videos/${video_id}/360p.m3u8`).run()
 
 ffmpeg(filename).addOptions([ //480
     '-profile:v main',
@@ -65,10 +53,10 @@ ffmpeg(filename).addOptions([ //480
     '-maxrate 1498k',
     '-bufsize 2100k',
     '-hls_time 10',
-    `-hls_segment_filename ${video_id}/480p_%03d.ts`,
+    `-hls_segment_filename videos/${video_id}/480p_%03d.ts`,
     '-hls_playlist_type vod',
     '-f hls'
-]).output(`${dir}/480p.m3u8`).run()
+]).output(`videos/${video_id}/480p.m3u8`).run()
 
 ffmpeg(filename).addOptions([ //720
     '-profile:v main',
@@ -85,10 +73,10 @@ ffmpeg(filename).addOptions([ //720
     '-maxrate 2996k',
     '-bufsize 4200k',
     '-hls_time 10',
-    `-hls_segment_filename ${video_id}/720p_%03d.ts`,
+    `-hls_segment_filename videos/${video_id}/720p_%03d.ts`,
     '-hls_playlist_type vod',
     '-f hls'
-]).output(`${dir}/720p.m3u8`).run()
+]).output(`videos/${video_id}/720p.m3u8`).run()
 
 ffmpeg(filename).addOptions([ //1080
     '-profile:v main',
@@ -105,7 +93,8 @@ ffmpeg(filename).addOptions([ //1080
     '-maxrate 5350k',
     '-bufsize 7500k',
     '-hls_time 10',
-    `-hls_segment_filename ${video_id}/1080p_%03d.ts`,
+    `-hls_segment_filename videos/${video_id}/1080p_%03d.ts`,
     '-hls_playlist_type vod',
     '-f hls'
-]).output(`${dir}/1080p.m3u8`).on('end', callback).run()
+]).output(`videos/${video_id}/1080p.m3u8`).on('end', callback).run()
+

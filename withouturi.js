@@ -2,7 +2,7 @@ const ffmpeg = require('fluent-ffmpeg');
 const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 const fs = require('fs');
-var filename = 'F:/backup/downloads/videoforconvert.mp4';
+var filename = 'https://storage.googleapis.com/armusdigital.com/middleofnight/middleofnight.mp4';
 const crypto = require("crypto");
 video_id = crypto.randomBytes(16).toString("hex");
 console.log(video_id);
@@ -20,7 +20,7 @@ fs.mkdir(dir, (err) => {
 });
 function callback() { // do something when encoding is done 
 
-    fs.writeFile(`${video_id}/index.m3u8`, `#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-STREAM-INF:BANDWIDTH=800000,RESOLUTION=640x360\n${g_cloud_dir}360p.m3u8\n#EXT-X-STREAM-INF:BANDWIDTH=1400000,RESOLUTION=842x480\n${g_cloud_dir}480p.m3u8\n#EXT-X-STREAM-INF:BANDWIDTH=2800000,RESOLUTION=1280x720\n${g_cloud_dir}720p.m3u8\n#EXT-X-STREAM-INF:BANDWIDTH=5000000,RESOLUTION=1920x1080\n${g_cloud_dir}1080p.m3u8`,
+    fs.writeFile(`${video_id}/index.m3u8`, `#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-STREAM-INF:BANDWIDTH=800000,RESOLUTION=640x360\n360p.m3u8\n#EXT-X-STREAM-INF:BANDWIDTH=1400000,RESOLUTION=842x480\n480p.m3u8\n#EXT-X-STREAM-INF:BANDWIDTH=2800000,RESOLUTION=1280x720\n720p.m3u8`,
         function (err) {
             if (err) {
                 return console.log(err);
@@ -90,22 +90,22 @@ ffmpeg(filename).addOptions([ //720
     '-f hls'
 ]).output(`${dir}/720p.m3u8`).run()
 
-ffmpeg(filename).addOptions([ //1080
+ffmpeg(filename).addOptions([ //720
     '-profile:v main',
-    '-vf scale=w=1920:h=1080:force_original_aspect_ratio=decrease',
+    '-vf scale=w=1280:h=720:force_original_aspect_ratio=decrease',
     '-c:a aac',
     '-ar 48000',
-    '-b:a 192k',
+    '-b:a 128k',
     '-c:v h264',
     '-crf 20',
     '-g 48',
     '-keyint_min 48',
     '-sc_threshold 0',
-    '-b:v 5000k',
-    '-maxrate 5350k',
-    '-bufsize 7500k',
+    '-b:v 2800k',
+    '-maxrate 2996k',
+    '-bufsize 4200k',
     '-hls_time 10',
-    `-hls_segment_filename ${video_id}/1080p_%03d.ts`,
+    `-hls_segment_filename ${video_id}/720p_%03d.ts`,
     '-hls_playlist_type vod',
     '-f hls'
-]).output(`${dir}/1080p.m3u8`).on('end', callback).run()
+]).output(`${dir}/720p.m3u8`).on('end', callback).run()

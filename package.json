@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/atomdeniz/nodejs-mp4-to-hls#readme",
   "dependencies": {
-    "@ffmpeg-installer/ffmpeg": "^1.0.17",
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "crypto": "^1.0.1",
     "fluent-ffmpeg": "^2.1.2",
-    "fs": "0.0.1-security"
+    "fs": "0.0.1-security",
+    "nanoid": "^4.0.0"
   }
 }
