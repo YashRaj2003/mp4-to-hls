@@ -2,7 +2,7 @@ const ffmpeg = require('fluent-ffmpeg');
 const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 const fs = require('fs');
-var filename = 'https://storage.googleapis.com/armusdigital.com/middleofnight/middleofnight.mp4';
+var filename = 'https://storage.googleapis.com/st_player/videoforconvert.mp4';
 const crypto = require("crypto");
 video_id = crypto.randomBytes(16).toString("hex");
 console.log(video_id);

@@ -2,7 +2,7 @@ const ffmpeg = require('fluent-ffmpeg');
 const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 const fs = require('fs');
-var filename = 'F:/backup/downloads/videoforconvert.mp4';
+var filename = 'https://storage.googleapis.com/st_player/videoforconvert.mp4';
 const crypto = require("crypto");
 video_id = crypto.randomBytes(16).toString("hex");
 console.log(video_id);
@@ -52,7 +52,7 @@ ffmpeg(filename).addOptions([ //360
 
 ffmpeg(filename).addOptions([ //480
     '-profile:v main',
-    '-vf scale=w=854:h=480:force_original_aspect_ratio=decrease',
+    '-vf scale=w=842:h=480:force_original_aspect_ratio=decrease',
     '-c:a aac',
     '-ar 48000',
     '-b:a 128k',
